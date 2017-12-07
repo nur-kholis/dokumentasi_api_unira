@@ -1,0 +1,94 @@
+<div ng-repeat="group in data" class="container">
+
+
+    <div ng-repeat="(b, dataGroup) in group.dataGroup" class="row">
+        <div class="col-md-12">
+            <div class="card shadow" id="tabs-{{ filter(dataGroup.apiGroup) }}">
+                 
+
+                <ul class="nav nav-tabs {{ cekBg(dataGroup.apiData) }}" role="tablist">
+                    <h3 class="title"><b>{{ dataGroup.apiGroup }}</b>
+                     </h3>
+
+                    <li ng-repeat="(a, apiData) in dataGroup.apiData" data-action="{{ apiData.method }}" role="presentation" class="{{ cekAktif(a) }} {{ cekWidth(dataGroup.apiData) }}">
+                        <a href="#tab-{{ apiData.name }}" aria-controls="tab-{{ apiData.name }}" role="tab" data-toggle="tab">{{ apiData.name }}</a>
+                    </li>
+
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <div ng-repeat="(a, apiData) in dataGroup.apiData" role="tabpanel" class="tab-pane {{ cekAktif(a) }}" id="tab-{{ apiData.name }}">
+                        <div class="list-contet">
+                            <div class="row p-1">
+                                <div class="url">
+                                    <div class="col-md-11 p-0">
+                                        <div class="input-group">
+                                            <input type="text" id="url-{{ apiData.name }}" value="{{ apiData.url }}" class="form-control" readonly="">
+                                            <span class="input-group-btn">
+                                                <button type="button" data-toggle="tooltip" title="Disalin!"  data-clipboard-target="#url-{{ apiData.name }}" class="btn btn-default"><img src="assets/images/clippy.svg" width="13"></button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-1 p-0">
+                                        <button ng-click="klik('result-response-'+apiData.name,'https://api.unira.ac.id'+apiData.url)" type="button" data-toggle="collapse" data-target="#response-{{ apiData.name }}" class="btn btn-default pull-right">
+                                            Response
+                                        </button>
+                                    </div>
+                                    <div class="col-md-12 p-0">
+
+                                        <div id="response-{{ apiData.name }}" class="collapse response">
+                                            <div ng-show="loading" id="loading">
+                                                <ul class="bokeh">
+                                                    <li></li>
+                                                    <li></li>
+                                                    <li></li>
+                                                </ul>
+                                            </div>
+                                            <pre><code class="language-json" id="result-response-{{ apiData.name }}"></code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <div class="row p-1">
+
+                            <p>{{ apiData.description }}</p>
+                            </div>
+
+                            <div ng-if="apiData.param" class="divider"></div>
+
+                            <div ng-if="apiData.param" class="row p-1">
+                                <caption>
+                                    <strong>Parameter</strong>
+                                </caption>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="param in apiData.param">
+                                            <td>{{ param.name }}</td>
+                                            <td>{{ param.type }}</td>
+                                            <td>{{ param.description }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

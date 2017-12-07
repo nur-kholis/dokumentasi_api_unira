@@ -1,0 +1,32 @@
+pmb
+ada beberapa url get denagn is pendaftar
+
+print
+semua url get membutuhkan parameter dan bug pada akhir url
+
+main 
+get dokumen not found -> dalam proses
+
+token 
+get token not found
+
+saya 
+getsaya autthentifikasi
+get dokar pernis membutuhkan parameter
+get admnin authentifikasi
+
+fakultasprodi
+
+tidak usah dimasukkan
+laporan
+pdf pendaftar
+
+adminsimat
+link ganda pada get mktawat
+terjadi bug pada get matakuliah/nilai untuk sementara api tidak tersedia dalam dokumen
+sedikit perbikan nama pada post dan get ekuevalinsi
+perubahan nama put '/krs/:id'
+perubahan get jumlah isi kelas '/krs/isi/kelas'
+menambahkan '/krs/temp/xy' dalam doc
+menambahkan '/kelas/pindah' dalam doc
+peambahan dan perubahan get dan put '/nilai/mhs' ke doc

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<div ng-app="myApp" ng-controller="myCtrl">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>API UNIRA</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+    <link href="css/api.unira.min.css" rel="stylesheet">
+    <link href="css/prism-okaidia.css" rel="stylesheet">
+
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <nav class="navbar navbar-inverse hidden-xl" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+        
+                <ul side-content class="nav navbar-nav side-nav" id="add-side-nav">
+
+                </ul>
+
+            </div>
+            
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                
+                
+                <!-- spinner -->
+
+                <!-- end spinner -->
+               <div class="container hidden">
+                    <pre><code  id="coba-prism" class="language-json hidden">{            "as": "Lorem ipsum dolor sit amet, "}</code></pre>
+               </div>
+
+                <div content-title>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="hidden" id="temp">{"nama": "nur Kholis"}</div>
+
+
+
+    </div>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    
+    <script src="plugin/clipboard/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+
+
+    <script type="text/javascript" src="json.js"></script>
+    <script type="text/javascript" src="data/pengguna.js"></script>
+    
+    <script type="text/javascript" src="js/prism.js"></script>
+
+    <script>
+
+        $('#saya-bisa').click(function(event) {
+            $('#coba-prism').html($('#temp').html());
+
+            
+        });
+
+       var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope, $http) {
+            $http.get("data/all.js")
+            .then(function(response) {
+                $scope.data = response.data;
+
+                $scope.cekAktif= 
+                function(num){
+                    if (num==0) {
+                        return 'active';
+                    }else{
+                        return '';
+                    }
+                };
+
+                $scope.cekBg= 
+                function(data){
+                    var method = data[0].method;
+
+                    switch(method){
+                        case  'GET':
+                            return 'bg-green';
+                            break;
+                        case  'POST':
+                            return 'bg-blue';
+                            break;
+                        case  'PUT':
+                            return 'bg-yellow';
+                            break;
+                        case  'DELETE':
+                            return 'bg-red';
+                            break;
+                    }
+                };
+
+                $scope.cekWidth= 
+                function(data){
+                    var length = data.length;
+
+                    switch(length){
+                        case  1:
+                            return 'is-1';
+                            break;
+                        case  2:
+                            return 'is-2';
+                            break;
+                        case  3:
+                            return 'is-3';
+                            break;
+                        case  4:
+                            return 'is-4';
+                            break;
+                    }
+                };
+
+                $scope.filter=
+                function(character,determinan='-'){
+                    return character.replace(/\ /g, determinan)
+                }
+
+                $scope.klik = function(target,url){
+                    console.log('target '+target+' url '+url);
+                    if ($('#'+target).html()=='') {
+                        console.log('belum terisi');
+                         $scope.loading = true;
+                        Prism.highlightAll();
+                        $http.get(url)
+                        .then(function(response) {
+                            $('#coba-prism').html(JSON.stringify(response.data, undefined, 2));
+                            $('#'+target).html($('#coba-prism').html());
+                        })
+                        .catch(function (error) {
+                            $('#coba-prism').html(JSON.stringify(error.data, undefined, 2));
+                            $('#'+target).html($('#coba-prism').html());
+                        })
+                        .finally(function() {
+                            $scope.loading = false;
+                            console.log('sudah sukses di tambahkan');
+                            Prism.highlightAll();
+                        });
+                    }
+                 }
+            });
+        });
+
+        app.directive('contentTitle', function(){
+            return {
+                restrict    : 'A',
+                templateUrl : 'home.html',
+                link: function($scope, element, attrs) {
+                    element.ready(function() {
+                        Prism.highlightAll();
+                });
+                }
+            };
+        });
+
+        app.directive('sideContent', function(){
+
+            return {
+                restrict    : 'A',
+                templateUrl : 'side.html'
+            };
+
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+    function changeBgColor(target,action){
+        var bg     = null;
+        switch (action) {
+            case 'GET' :
+                bg = 'bg-green';
+                break;
+            case 'POST' :
+                bg = 'bg-blue';
+                break;
+            case 'PUT' :
+                bg = 'bg-yellow';
+                break;
+            case 'DELETE' :
+                bg = 'bg-red';
+                break;
+        }
+
+
+
+        if (target.hasClass('bg-green')) {
+            target.removeClass('bg-green')
+        }
+        if (target.hasClass('bg-blue')) {
+            target.removeClass('bg-blue')
+        }
+        if (target.hasClass('bg-yellow')) {
+            target.removeClass('bg-yellow')
+        }
+        if (target.hasClass('bg-red')) {
+            target.removeClass('bg-red')
+        }
+
+        target.addClass(bg);
+    }
+
+    $('html').on('click', 'ul li', function(event) {
+        event.preventDefault();
+        var target = $(this).parent();
+        var action = $(this).data('action');
+        changeBgColor(target,action);
+
+    });
+    </script>
+
+    <script type="text/javascript">
+
+    var clipboard = new Clipboard('.btn');
+
+    $('[data-toggle="tooltip"]').tooltip({
+      trigger   : 'click',
+      placement : 'bottom',
+    });
+
+    function hideTooltip() {
+      setTimeout(function() {
+        $('[data-toggle="tooltip"]').tooltip('hide');
+      }, 1000);
+    }
+
+    $("#add-side-nav").on('click', 'ul li ul li a', function(event) {
+        event.preventDefault();
+        var tabs = $(this).data('tabs');
+        var method = $(this).data('method');
+        var name = $(this).data('name');
+        console.log(name);
+
+        $('html, body').animate({
+            scrollTop: $('#'+tabs).offset().top
+        }, 1000);
+
+        /*mengahpus kelas aktif*/
+        $('#'+tabs+' ul li').each(function(index, el) {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            };
+        });
+
+        /*mengganti kelas aktif berdasarkan yang di klik user*/
+        $('#'+tabs+' ul li').each(function(index, el) {
+           if($(this).data('action')==method){
+            $(this).addClass('active');
+            /*merubah backgroud*/
+            var target = $(this).parent('ul');
+            changeBgColor(target,method);
+           }
+        });
+
+        $('#'+tabs+' .tab-content .tab-pane').each(function(index, el) {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            };
+        });
+
+        $('#'+tabs+' .tab-content .tab-pane').each(function(index, el) {
+           var target = $(this).attr('id');
+           if (target == ('tab-'+name)){
+                $(this).addClass('active');
+           }
+        });     
+        
+
+    });
+    
+    </script>
+
+</body>
+
+</html>

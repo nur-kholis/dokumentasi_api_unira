@@ -1,0 +1,23 @@
+ <li ng-repeat="group in data">
+    <a href="#collapse-side-{{ group.group }}" class="cancot collapsed" data-toggle="collapse" aria-controls="collapse-side-{{ group.group }}" aria-expanded="false">
+        <span>{{ group.group }}</span>
+        <span class="fa fa-angle-down pull-right"></span>
+    </a>
+    <ul  class="collapseable collapse" id="collapse-side-{{ group.group }}" aria-expanded="false" style="height: 0px;">
+
+        <li ng-repeat="dataGroup in group.dataGroup">
+            <a href="#collapse-{{ filter(dataGroup.apiGroup) }}" data-toggle="collapse" aria-controls="?" class="" aria-expanded="true">
+                <span>{{ dataGroup.apiGroup }}</span>
+                <span class="fa fa-angle-down pull-right"></span>
+            </a>
+    
+            <ul class="collapseable collapse" id="collapse-{{ filter(dataGroup.apiGroup) }}" aria-expanded="true" style="">
+   
+                <li ng-repeat="apiData in dataGroup.apiData">
+                    <a href="#" data-tabs="tabs-{{ filter(dataGroup.apiGroup) }}" data-name="{{ apiData.name }}" data-method="{{ apiData.method }}">{{ apiData.name }}</a>
+                </li>
+
+            </ul>
+        </li>
+    </ul>
+</li>
